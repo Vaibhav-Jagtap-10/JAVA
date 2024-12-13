@@ -1,0 +1,103 @@
+package EMPLOY;
+class EMPLOY {
+	private String empName;
+	private int empid;
+	private String adress;
+	private String mailid;
+	private String mobileNo;
+	protected double basicpay;
+	
+	
+	public EMPLOY(String empName,int empid,
+			String adress,String mailid,String mobileNO,double basicpay) {
+	this.empName=empName;
+	this.empid=empid;
+	this.adress=adress;
+	this.mailid=mailid;
+	this.mobileNo=mobileNo;
+	this.basicpay=basicpay;
+	
+	}
+	public double calculateGrossSalary() {
+	double DA=0.97*basicpay;
+	double HRA=0.10*basicpay;
+	return basicpay+DA+HRA;
+	}
+	
+	public double calculateNetSalary() {
+	double PF=0.12*basicpay;
+	double staffclubfund=0.001*basicpay;
+	return calculateGrossSalary()-(PF+staffclubfund);
+}
+	
+	public void generatepayslip() {
+	System.out.println("EMPLOY Name"+empName);
+	System.out.println("EMPLOY id"+empid);
+	System.out.println("Adress"+adress);
+	System.out.println("Mail id"+mailid);
+	System.out.println("MobileNO"+mobileNo);
+	System.out.println("Basicpay"+basicpay);
+	System.out.println("Gross Salary"+calculateGrossSalary());
+	System.out.println("Net Salary"+calculateNetSalary());
+	}
+}
+
+class Programmer extends EMPLOY{
+	public Programmer(String empName,int empid,
+			String adress,String mailid,String mobileNO,double basicpay) {
+	super(empName,empid,adress,mailid,mobileNO,basicpay);
+	}
+}
+
+class Teamlead extends EMPLOY{
+	public Teamlead(String empName,int empid,
+			String adress,String mailid,String mobileNO,double basicpay) {
+		super(empName,empid,adress,mailid,mobileNO,basicpay);
+	}
+}
+
+class AssistantProjectManager extends EMPLOY{
+	public AssistantProjectManager(String empName,int empid,
+			String adress,String mailid,String mobileNO,double basicpay) {
+		super(empName,empid,adress,mailid,mobileNO,basicpay);
+	}
+}
+
+class ProjectManager extends EMPLOY{
+	public ProjectManager(String empName,int empid,
+			String adress,String mailid,String mobileNO,double basicpay) {
+		super(empName,empid,adress,mailid,mobileNO,basicpay);
+	}
+}
+	
+
+public class EmployTest {
+
+	public static void main(String[] args) {
+		Programmer programmer=new Programmer("A",1,"Pune","A123@gamil.com",
+				"1524376894",10000);
+		Teamlead teamlead=new Teamlead("B",2,"Mumbai","B234@gamil.com",
+				"2345617893",20000);
+		AssistantProjectManager assistantprojectmanager=new AssistantProjectManager("c",3
+				,"Sikkim","C456@gmail.com","4536271894",30000);
+		ProjectManager projectmanager=new ProjectManager("D",4,"Kashmir","D768@gmail.com",
+				"6574839218",40000);
+		
+		System.out.println("Programmer Payslip:" );
+		programmer.generatepayslip();
+		System.out.println();
+		
+        System.out.println("Teamlead Payslip:");
+        teamlead.generatepayslip();
+        System.out.println();
+        
+        System.out.println("AssistantProjectManager Payslip:");
+        assistantprojectmanager.generatepayslip();
+        System.out.println();
+        
+        System.out.println("ProjectManager Payslip:");
+        projectmanager.generatepayslip();
+        System.out.println();
+	}
+
+}
