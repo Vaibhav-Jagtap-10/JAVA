@@ -1,0 +1,157 @@
+// Step 1: Create the abstract Car class
+abstract class Car {
+    String model;
+    String engine;
+    String wheels;
+    String accessories;
+
+    // Abstract methods for building the car
+    public abstract void assembleBody();
+    public abstract void addEngine();
+    public abstract void addWheels();
+    public abstract void allocateAccessories();
+
+    // Final method for the complete makeup
+    public void finalMakeup() {
+        System.out.println("Final makeup: Painting the car...");
+    }
+
+    @Override
+    public String toString() {
+        return "Car [Model=" + model + ", Engine=" + engine + ", Wheels=" + wheels + ", Accessories=" + accessories + "]";
+    }
+}
+
+// Step 2: Concrete classes for specific car types
+
+class Hatchback extends Car {
+    public Hatchback() {
+        this.model = "Hatchback";
+    }
+
+    @Override
+    public void assembleBody() {
+        System.out.println("Assembling Hatchback body...");
+    }
+
+    @Override
+    public void addEngine() {
+        this.engine = "Hatchback Engine";
+        System.out.println("Adding Hatchback engine...");
+    }
+
+    @Override
+    public void addWheels() {
+        this.wheels = "Small Hatchback Wheels";
+        System.out.println("Adding small wheels...");
+    }
+
+    @Override
+    public void allocateAccessories() {
+        this.accessories = "Standard Hatchback Accessories";
+        System.out.println("Allocating standard accessories...");
+    }
+}
+
+class Sedan extends Car {
+    public Sedan() {
+        this.model = "Sedan";
+    }
+
+    @Override
+    public void assembleBody() {
+        System.out.println("Assembling Sedan body...");
+    }
+
+    @Override
+    public void addEngine() {
+        this.engine = "Sedan Engine";
+        System.out.println("Adding Sedan engine...");
+    }
+
+    @Override
+    public void addWheels() {
+        this.wheels = "Medium Sedan Wheels";
+        System.out.println("Adding medium wheels...");
+    }
+
+    @Override
+    public void allocateAccessories() {
+        this.accessories = "Luxury Sedan Accessories";
+        System.out.println("Allocating luxury accessories...");
+    }
+}
+
+class SUV extends Car {
+    public SUV() {
+        this.model = "SUV";
+    }
+
+    @Override
+    public void assembleBody() {
+        System.out.println("Assembling SUV body...");
+    }
+
+    @Override
+    public void addEngine() {
+        this.engine = "SUV Engine";
+        System.out.println("Adding SUV engine...");
+    }
+
+    @Override
+    public void addWheels() {
+        this.wheels = "Large SUV Wheels";
+        System.out.println("Adding large wheels...");
+    }
+
+    @Override
+    public void allocateAccessories() {
+        this.accessories = "Off-road SUV Accessories";
+        System.out.println("Allocating off-road accessories...");
+    }
+}
+
+// Step 3: The CarFactory class responsible for creating cars
+class CarFactory {
+    public static Car buildCar(String carType) {
+        Car car = null;
+
+        // Create specific car based on type
+        if (carType.equalsIgnoreCase("Hatchback")) {
+            car = new Hatchback();
+        } else if (carType.equalsIgnoreCase("Sedan")) {
+            car = new Sedan();
+        } else if (carType.equalsIgnoreCase("SUV")) {
+            car = new SUV();
+        }
+
+        // Perform car building steps
+        if (car != null) {
+            car.assembleBody();
+            car.addEngine();
+            car.addWheels();
+            car.allocateAccessories();
+            car.finalMakeup(); // Final steps for the car
+        }
+
+        return car;
+    }
+}
+
+// Step 4: Test the Factory Pattern
+public class TestFactoryPattern {
+    public static void main(String[] args) {
+        // Create different car types using the CarFactory
+        System.out.println("Building a Hatchback car:");
+        Car hatchback = CarFactory.buildCar("Hatchback");
+        System.out.println(hatchback);
+
+        System.out.println("\nBuilding a Sedan car:");
+        Car sedan = CarFactory.buildCar("Sedan");
+        System.out.println(sedan);
+
+        System.out.println("\nBuilding an SUV car:");
+        Car suv = CarFactory.buildCar("SUV");
+        System.out.println(suv);
+    }
+}
