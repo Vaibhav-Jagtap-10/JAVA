@@ -1,0 +1,66 @@
+package Complex;
+class Complex{
+	private double real;
+	private double imaginary;
+	
+	public Complex() {
+		this.real=0.0;
+		this.imaginary=0.0;
+	}
+	public Complex(double real,double imaginary) {
+		this.real=real;
+		this.imaginary=imaginary;
+	}
+
+	public Complex add(Complex other) {
+		return new Complex(this.real+other.real,this.imaginary+other.imaginary);
+	}
+	public Complex subtract(Complex other) {
+		return new Complex(this.real-other.real,this.imaginary-other.imaginary);
+	}
+	public Complex multiply(Complex other) {
+		double realpart=(this.real*other.real+this.imaginary*other.imaginary);
+		double imaginarypart=(this.real*other.imaginary-this.imaginary*other.real);
+		return new Complex(realpart,imaginarypart);
+	}
+	public Complex divide(Complex other) {
+		double denominator=(this.real*other.real+this.imaginary*other.imaginary);
+		double realpart=(this.real*other.real+this.imaginary*other.imaginary/denominator);
+		double imaginarypart=(this.imaginary*other.real-this.real*other.imaginary/denominator);
+		if(denominator==0) {
+			throw new ArithmeticException("Division by zero not allowed");
+		}
+		return new Complex(realpart,imaginarypart);
+	}
+
+public void display() {
+	System.out.println(this.real+"+"+this.imaginary+"i");
+}
+
+	public static void main(String[] args) {
+		Complex c1=new Complex(6,7);
+		Complex c2=new Complex(4,5);
+		
+		System.out.println("First Complex Number");
+		c1.display();
+		System.out.println("Second Complex Number");
+		c2.display();
+		
+		Complex sum=c1.add(c2);
+		System.out.println("Addition");
+		sum.display();
+		
+		Complex difference=c1.subtract(c2);
+		System.out.println("Subtraction");
+		difference.display();
+		
+		Complex product=c1.multiply(c2);
+		System.out.println("Multiplication");
+		product.display();
+		
+		Complex division=c1.divide(c2);
+		System.out.println("Division");
+		division.display();
+	}
+
+}
