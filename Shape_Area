@@ -1,0 +1,57 @@
+package Shape;
+import java.util.Scanner;
+abstract class Shape{
+	double width;
+	double height;
+	public void input(double width,double height) {
+		this.width=width;
+		this.height=height;
+	}
+	abstract double compute_area();
+}
+class Triangle extends Shape{
+	public double compute_area() {
+		return 0.5*width*height;
+	}
+}
+class Rectangle extends Shape{
+	public double compute_area() {
+		return width*height;
+	}
+}
+
+public class Area {
+
+	public static void main(String[] args) {
+		Shape s=null;
+		Scanner sc=new Scanner(System.in);
+		int ch;
+		double width,height;
+		
+		System.out.println("1.Triangle");
+		System.out.println("2.Rectangle");
+		System.out.println("Select your choice");
+		ch=sc.nextInt();
+		
+		if(ch==1) {
+			s=new Triangle();
+		}
+		else if(ch==2) {
+			s=new Rectangle();
+		}
+		else {
+			System.out.println("Invalid choice");
+		}
+		
+		System.out.println("Enter the dimensions");
+		System.out.println("Width");
+		width=sc.nextDouble();
+		System.out.println("Height");
+		height=sc.nextDouble();
+		
+		s.input(width, height);
+		System.out.println("The area of the shape is"+s.compute_area());
+		sc.close();
+	}
+
+}
