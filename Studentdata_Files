@@ -1,0 +1,153 @@
+import java.io.*;
+import java.util.*;
+
+class Student {
+    int student_id;
+    String name;
+    int roll_no;
+    String student_class;
+    double marks;
+    String address;
+
+    public Student(int student_id, String name, int roll_no, String student_class, double marks, String address) {
+        this.student_id = student_id;
+        this.name = name;
+        this.roll_no = roll_no;
+        this.student_class = student_class;
+        this.marks = marks;
+        this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Student_id: " + student_id + ", Name: " + name + ", Roll_no: " + roll_no +
+               ", Class: " + student_class + ", Marks: " + marks + ", Address: " + address;
+    }
+
+    // Convert student object to string representation to be saved in file
+    public String toFileString() {
+        return student_id + "," + name + "," + roll_no + "," + student_class + "," + marks + "," + address;
+    }
+
+    // Static method to create a student from a line in the file
+    public static Student fromFileString(String line) {
+        String[] data = line.split(",");
+        return new Student(Integer.parseInt(data[0]), data[1], Integer.parseInt(data[2]), 
+                           data[3], Double.parseDouble(data[4]), data[5]);
+    }
+}
+
+public class StudentDatabase {
+
+    private static final String FILE_NAME = "student_database.txt";
+
+    // Method to create and add student to the database
+    public static void createDatabase(Student student) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
+            writer.write(student.toFileString());
+            writer.newLine();
+            System.out.println("Student record added successfully.");
+        } catch (IOException e) {
+            System.out.println("Error writing to the file: " + e.getMessage());
+        }
+    }
+
+    // Method to display all student records from the database
+    public static void displayDatabase() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Student student = Student.fromFileString(line);
+                System.out.println(student);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    // Method to search a student by student_id or roll_no
+    public static void searchRecord(int student_id) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            boolean found = false;
+            while ((line = reader.readLine()) != null) {
+                Student student = Student.fromFileString(line);
+                if (student.student_id == student_id) {
+                    System.out.println("Record Found: " + student);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                System.out.println("Student with ID " + student_id + " not found.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    // Method to update a student's record by student_id
+    public static void updateRecord(int student_id, String newName, String newClass, double newMarks, String newAddress) {
+        File tempFile = new File("temp_student_database.txt");
+        File originalFile = new File(FILE_NAME);
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(originalFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+            String line;
+            boolean found = false;
+            while ((line = reader.readLine()) != null) {
+                Student student = Student.fromFileString(line);
+                if (student.student_id == student_id) {
+                    // Update the student's record
+                    student.name = newName;
+                    student.student_class = newClass;
+                    student.marks = newMarks;
+                    student.address = newAddress;
+                    writer.write(student.toFileString());
+                    found = true;
+                } else {
+                    writer.write(line);
+                }
+                writer.newLine();
+            }
+            
+            if (found) {
+                // Replace the original file with the updated data
+                if (originalFile.delete()) {
+                    tempFile.renameTo(originalFile);
+                    System.out.println("Student record updated successfully.");
+                } else {
+                    System.out.println("Error updating the record.");
+                }
+            } else {
+                System.out.println("Student with ID " + student_id + " not found.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error updating the file: " + e.getMessage());
+        }
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        // Creating some student records
+        createDatabase(new Student(1, "Alice", 101, "10th Grade", 85.5, "123 Main St"));
+        createDatabase(new Student(2, "Bob", 102, "10th Grade", 92.0, "456 Oak St"));
+        createDatabase(new Student(3, "Charlie", 103, "11th Grade", 78.0, "789 Pine St"));
+        
+        // Displaying all students
+        System.out.println("Displaying all students:");
+        displayDatabase();
+        
+        // Searching for a student by student_id
+        System.out.println("\nSearching for student with ID 2:");
+        searchRecord(2);
+        
+        // Updating student record with student_id 2
+        System.out.println("\nUpdating student with ID 2:");
+        updateRecord(2, "Bob Updated", "11th Grade", 95.0, "Updated Address");
+        
+        // Displaying all students after update
+        System.out.println("\nDisplaying all students after update:");
+        displayDatabase();
+    }
+}
