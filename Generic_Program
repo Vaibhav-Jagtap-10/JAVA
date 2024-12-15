@@ -1,0 +1,85 @@
+import java.util.*;
+
+public class CollectionPropertyCounter {
+
+    public static void main(String[] args) {
+        // Example collection: List of integers
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 121, 131, 23, 133);
+
+        // Count even numbers
+        System.out.println("Even numbers count: " + countEvenNumbers(numbers));
+
+        // Count odd numbers
+        System.out.println("Odd numbers count: " + countOddNumbers(numbers));
+
+        // Count prime numbers
+        System.out.println("Prime numbers count: " + countPrimeNumbers(numbers));
+
+        // Count palindrome numbers
+        System.out.println("Palindrome numbers count: " + countPalindromeNumbers(numbers));
+    }
+
+    // Method to count even numbers
+    public static int countEvenNumbers(List<Integer> numbers) {
+        int count = 0;
+        for (int num : numbers) {
+            if (num % 2 == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Method to count odd numbers
+    public static int countOddNumbers(List<Integer> numbers) {
+        int count = 0;
+        for (int num : numbers) {
+            if (num % 2 != 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Method to count prime numbers
+    public static int countPrimeNumbers(List<Integer> numbers) {
+        int count = 0;
+        for (int num : numbers) {
+            if (isPrime(num)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Helper method to check if a number is prime
+    public static boolean isPrime(int num) {
+        if (num <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Method to count palindrome numbers
+    public static int countPalindromeNumbers(List<Integer> numbers) {
+        int count = 0;
+        for (int num : numbers) {
+            if (isPalindrome(num)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Helper method to check if a number is a palindrome
+    public static boolean isPalindrome(int num) {
+        String str = Integer.toString(num);
+        String reversed = new StringBuilder(str).reverse().toString();
+        return str.equals(reversed);
+    }
+}
